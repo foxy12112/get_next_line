@@ -6,7 +6,7 @@
 /*   By: ldick <ldick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:26:01 by ldick             #+#    #+#             */
-/*   Updated: 2024/03/21 19:32:41 by ldick            ###   ########.fr       */
+/*   Updated: 2024/03/30 12:47:44 by ldick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*ft_strchr(char *s, int c)
 		return ((char *)&s[ft_strlen(s)]);
 	while (s[i] != '\0')
 	{
-		if (s[i] == (char) c)
+		if (s[i] == (char)c)
 			return ((char *)&s[i]);
 		i++;
 	}
@@ -45,81 +45,50 @@ char	*ft_strchr(char *s, int c)
 char	*ft_strjoin(char *s1, char *s2)
 {
 	size_t	i;
-	size_t	j;
+	size_t	c;
 	char	*str;
 
 	if (!s1)
 	{
 		s1 = (char *)malloc(1 * sizeof(char));
+		if (!s1)
+			return (NULL);
 		s1[0] = '\0';
 	}
-	if (!s1 || !s2)
+	if (!s2)
 		return (NULL);
-	str = malloc(sizeof(char) * ((ft_strlen(s1) + ft_strlen(s2)) + 1));
+	str = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
 	if (str == NULL)
-		return (NULL);
+		return (free(s1), NULL);
 	i = -1;
-	j = 0;
+	c = 0;
 	if (s1)
 		while (s1[++i] != '\0')
 			str[i] = s1[i];
-	while (s2[j] != '\0')
-		str[i++] = s2[j++];
+	while (s2[c] != '\0')
+		str[i++] = s2[c++];
 	str[ft_strlen(s1) + ft_strlen(s2)] = '\0';
-	free(s1);
-	return (str);
+	return (free(s1), str);
 }
 
-char	*ft_get_line(char *s1)
+size_t	ft_strlcpy(char *dest, const char *src, size_t len)
 {
-	int		i;
-	char	*str;
+	size_t	i;
+	size_t	src_size;
 
 	i = 0;
-	if (!s1[i])
-		return (NULL);
-	while (s1[i] && s1[i] != '\n')
-		i++;
-	str = (char *)malloc(sizeof(char) * (i + 2));
-	if (!str)
-		return (NULL);
-	i = 0;
-	while (s1[i] && s1[i] != '\n')
+	src_size = 0;
+	while (src[src_size] != '\0')
+		src_size++;
+	if (len > 0)
 	{
-		str[i] = s1[i];
-		i++;
+		i = 0;
+		while (src[i] != '\0' && i < (len - 1))
+		{
+			dest[i] = src[i];
+			i++;
+		}
+		dest[i] = '\0';
 	}
-	if (s1[i] == '\n')
-	{
-		str[i] = s1[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
-}
-
-char	*ft_new_str(char *s1)
-{
-	int		i;
-	int		j;
-	char	*str;
-
-	i = 0;
-	while (s1[i] && s1[i] != '\n')
-		i++;
-	if (!s1[i])
-	{
-		free(s1);
-		return (NULL);
-	}
-	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) - i + 1));
-	if (!str)
-		return (NULL);
-	i++;
-	j = 0;
-	while (s1[i])
-		str[j++] = s1[i++];
-	str[j] = '\0';
-	free(s1);
-	return (str);
+	return (src_size);
 }
