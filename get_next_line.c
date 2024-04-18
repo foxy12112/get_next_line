@@ -6,7 +6,7 @@
 /*   By: ldick <ldick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 19:29:08 by ldick             #+#    #+#             */
-/*   Updated: 2024/03/30 12:48:11 by ldick            ###   ########.fr       */
+/*   Updated: 2024/04/17 16:43:16 by ldick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*read_bytes(int fd, char *full_read)
 	if (!buffer)
 		return (NULL);
 	err = 1;
-	while ((!ft_strchr(full_read, '\n') && err != 0))
+	while ((!gnl_strchr(full_read, '\n') && err != 0))
 	{
 		err = read(fd, buffer, BUFFER_SIZE);
 		if (err == -1)
@@ -31,7 +31,7 @@ char	*read_bytes(int fd, char *full_read)
 			return (NULL);
 		}
 		buffer[err] = '\0';
-		full_read = ft_strjoin(full_read, buffer);
+		full_read = gnl_strjoin(full_read, buffer);
 	}
 	free(buffer);
 	return (full_read);
@@ -95,7 +95,7 @@ char	*update_rest(char *full_read)
 		free(temp);
 		return (NULL);
 	}
-	temp = malloc(sizeof(char) * (ft_strlen(full_read) - n + 1));
+	temp = malloc(sizeof(char) * (gnl_strlen(full_read) - n + 1));
 	if (!temp)
 		return (NULL);
 	n++;
